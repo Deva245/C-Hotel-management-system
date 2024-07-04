@@ -1,32 +1,240 @@
-# Prerequisites
-*.d
+#include<iostream.h>
+#include<conio.h>
+#include<process.h>
+#include<stdio.h>
+#include<fstream.h>
+#include<string.h>
 
-# Compiled Object files
-*.slo
-*.lo
-*.o
-*.obj
+class hotel
+{
+   private:
+	   int mob_no,adhar_no,days;
+	   char username[50],email[50],pass[50];
+	   char searchname[50],searchemail[50],searchpass[50];
+	   fstream file;
+	   char name[50],addr[50],email_id[50] ,roomtype[50],ac[50],food[50],bed[50];
+   public:
+	void login();
+	void signup();
+	void forgot();
+	void hotelmenu();
 
-# Precompiled Headers
-*.gch
-*.pch
+/*--------------------------room type----------------------------*/
 
-# Compiled Dynamic libraries
-*.so
-*.dylib
-*.dll
+  void room_type()
+  {
+     cout<<"enter your type of room"<<endl;
+     cin>>roomtype;
+     cout<<"type 'A' for AC and 'N' for 'NON/AC'."<<endl;
+     cin>>ac;
+     cout<<"press 'F' for Food and 'N' For No food:"<<endl;
+     cin>>food;
+     cout<<"type for'S' single bed & 'D' for double bed"<<endl;
+     cin>>bed;
+  }
+  void see_facility()
+  {
+    textcolor(9);
+    cout<<"Welcome to our Grand Vista hotel\n"<<endl;
+    cout<<"Facilities available\n"<<endl;
+    cout<<"1- Quality rooms\n2- Coordinating Staff\n3- Party Space available\n4- Swimming Pools\n5- Free Room services\n"<<endl;
+    cout<<"Thanks For Visiting us\n"<<endl;
+  }
+ void book_room();
+ void details();
 
-# Fortran module files
-*.mod
-*.smod
+  };
+  //---------------------------------------menu driven---------------------
 
-# Compiled Static libraries
-*.lai
-*.la
-*.a
-*.lib
+  void hotel:: hotelmenu()
+  {
+     clrscr();
+     textcolor(3);
+   printf("------ Welcome -----");
+   cprintf("\n\nWELCOME TO OUR GRAND VISTA HOTEL\n\n");
 
-# Executables
-*.exe
-*.out
-*.app
+   char ch='y';
+   int d;
+   while((ch=='y')||(ch=='Y'))
+ {   clrscr();
+  cout<<"\nPress 1 for Registration of customer"<<endl;
+  cout<<"\nPress 2 for book room type"<<endl;
+  cout<<"\nPress 3 to view facilities"<<endl;
+  cout<<"\nPress 4 for exit"<<endl;
+
+  cout<<"\nEnter your choice:\n";
+  cin>>d;
+
+  switch(d)
+  {
+   case 1:  book_room();
+	    break;
+  case 2: printf("\nwe have following three type of rooms:\n\n");
+   printf("1.suite.         2.Delux.       3.Premium.\n\n") ;
+   room_type();
+   break;
+   case 3: see_facility();
+	   break;
+   case 4: exit(0);
+
+	   break;
+
+   default: cout<<"\nOOPS!! Please enter a valid input";
+  }
+  cout<<"\nPress 'y'or 'Y' to continue...";
+  cin>>ch;
+    }
+    getch();
+    }
+  //----------------------------------------------------------------------
+
+ void hotel:: book_room()
+ {
+
+  cout<<"\nEnter customer name:"<<endl;
+  gets(name);
+  cout<<"\nEnter address:"<<endl;
+  gets(addr);
+  cout<<"\nEnter mobile number:"<<endl;
+  cin>>mob_no;
+  cout<<"\nEnter your addhar no:"<<endl;
+  cin>>adhar_no;
+  cout<<"\nEnter your email id:"<<endl;
+  gets(email_id);
+  cout<<"\nEnter no of days to stay:"<<endl;
+  cin>>days;
+  file.open("devang.cpp",ios::out|ios::app);
+  file<<name<<"\n"<<addr<<"\n"<<mob_no<<"\n"<<adhar_no<<"\n"<<email_id<<"\n"<<days<<endl;
+  file.close();
+  }
+  void hotel::details()
+  {
+  cout<<"name"<<name<<endl;
+  }
+
+void hotel::signup()
+{
+ cout<<"\nEnter your User Name::";
+ flushall();
+ gets(username);
+ cout<<"\nEnter Your email id::";
+ flushall();
+ gets(email);
+ cout<<"Enter the password you want to establish::";
+ flushall();
+ gets(pass);
+ file.open("abhinav.cpp",ios::out|ios::app);
+ file<<username<<"\n"<<email<<"\n"<<pass<<endl;
+ file.close();
+}
+//**********************************login********************************
+
+void hotel::login()
+{
+ cout<<"-------------LOGIN--------------"<<endl;
+ cout<<"Enter your User Name::"<<endl;
+ gets(searchname);
+ cout<<"Enter your Password::"<<endl;
+ gets(searchpass);
+
+ file.open("abhinav.cpp",ios::in);
+   int flag=0;
+ file.seekg(0,ios::beg);
+ while(!file.eof())     //is not equal to zero(infinite loop)
+ {
+  file.getline(username,'\n');
+ //file.getline(email,'\n');
+ file.getline(pass,'\n');
+  if ((strcmp(username,searchname)==0)&&(strcmp(pass,searchpass)==0))
+   {
+    cout<<"\nAccount Login Succesfull...!";
+    getch();
+    cout<<"\n\n\nWelcome ::"<<username<<endl;
+    getch();
+    flag=1;
+     hotelmenu();
+    //cout<<"\nEmail::"<<email<<endl;
+   }
+  }       //end of while
+  file.close();
+  if(flag==0)
+	cout<<"password is invalid please try again \n\n";
+
+    getch();
+
+  }
+//*****************************************************
+
+void hotel::forgot()
+{
+ cout<<"Enter your User Name::"<<endl;
+ gets(searchname);
+ cout<<"Enter your Email Address::"<<endl;
+ gets(searchemail);
+ file.open("abhinav.cpp",ios::in);
+ file.getline(username,'\n');
+ file.getline(email,'\n');
+ file.getline(pass,'\n');
+ file.seekg(0,ios::beg);
+ while(!file.eof())
+ {
+  if (username==searchname)
+  {
+   if (email==searchemail)
+   {
+    cout<<"\nAccount found...!!!"<<endl;
+    cout<<"Your Password::"<<pass<<endl;
+   }
+   else
+   {
+    cout<<"\nEnter a valid email id...!!!\n";
+   }
+  }
+  else
+  {
+   cout<<"\nUserName Not Found...!!!\n";
+   getch;
+   exit(0);
+  }
+
+ }
+ file.close();
+ }
+
+    /*     Main Body XDXDXDXDXDXDXDXDXDXDXD     */
+
+   void main()
+   {
+       clrscr();
+       hotel obj, obj1;
+       clrscr();
+       int choice;
+       char cha='q';
+   while((cha=='q')||(cha=='Q'))
+   {
+   clrscr();
+   cout<<"\n1-Login:";
+   cout<<"\n2-Sign-up:";
+   cout<<"\n3-Forgot Password:";
+   cout<<"\n4-Exit:";
+   cout<<"\nEnter your choice::";
+   cin>>choice;
+   switch(choice)
+   {
+    case 1: obj.login();
+	     break;
+    case 2: obj.signup();
+	     break;
+    case 3: obj.forgot();
+	     break;
+    case 4: exit(0);
+    default: cout<<"Invalid Selection...!";
+   }
+   cout<<"Enter q or Q to continue.... ";
+   flushall();
+   cin>>cha;
+   }//end of while loop
+
+ getch();
+
+}
